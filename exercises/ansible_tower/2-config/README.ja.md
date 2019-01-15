@@ -83,7 +83,7 @@ PRIVILEGE ESCALATION METHOD (権限昇格方法)|sudo
 
 ### Step 4:
 
-SAVE (保存)をクリックします。 ![Save button](at_save.png)
+SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 ## Project (プロジェクト)の作成
 
@@ -120,7 +120,7 @@ SCM UPDATE OPTIONS(SCM更新オプション)
 
 ### Step 4:
 
-SAVE (保存)をクリックします。 ![Save button](at_save.png)
+SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 ## Inventory(インベントリ) の作成
 
