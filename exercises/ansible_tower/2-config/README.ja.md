@@ -83,7 +83,7 @@ PRIVILEGE ESCALATION METHOD (権限昇格方法)|sudo
 
 ### Step 4:
 
-SAVE(保存)をクリックします。 ![Save button](at_save.png)
+SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 ## Project (プロジェクト)の作成
 
@@ -120,7 +120,7 @@ SCM UPDATE OPTIONS(SCM更新オプション)
 
 ### Step 4:
 
-SAVE(保存)をクリックします。 ![Save button](at_save.png)
+SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 ## Inventory(インベントリ) の作成
 
@@ -178,7 +178,7 @@ Ansible Towerのインベントリを確認してみてください。
 
 ここまでで、Ansible Towerの基本的な構成を終えることができました。
 次の演習ではjob templateの作成と実行に焦点を当て、Ansible Towerがどのように機能するかを実際に見ていきます。
- 
+
 ---
 
 [Ansible Lightbulbのページへ戻ります - Ansible Tower Workshop](../README.ja.md)
