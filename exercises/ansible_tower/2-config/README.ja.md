@@ -178,7 +178,7 @@ Ansible Towerのインベントリを確認してみてください。
 
 ここまでで、Ansible Towerの基本的な構成を終えることができました。
 次の演習ではjob templateの作成と実行に焦点を当て、Ansible Towerがどのように機能するかを実際に見ていきます。
-
+ 
 ---
 
 [Ansible Lightbulbのページへ戻ります - Ansible Tower Workshop](../README.ja.md)

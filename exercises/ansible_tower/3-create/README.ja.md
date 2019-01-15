@@ -146,7 +146,7 @@ http://<webグループのnode1,node2,node3のIPアドレス>
 そしてもちろん、Ansible Towerはもっと多くのことができます！  
 このワークショップでこれまで見てきたことは Ansible EngineとTowerが備えた数多くの機能のほんの入り口だけです。  
 このガイドの資料のページを参照して、様々な機能を学び、試してみてください。
-
+ 
 ---
 
 [Ansible Lightbulbのページへ戻ります - Ansible Tower Workshop](../README.ja.md)
