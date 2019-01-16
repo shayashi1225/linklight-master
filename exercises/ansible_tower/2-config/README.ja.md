@@ -20,7 +20,7 @@ Anabilities Towerは、RestAPIでの実行、マルチテナント、通知、�
 
 Username:`admin`
 
-password:`ansibleWS`(もしくは1-install Step 6でインベントリーファイルへ記入したパスワード)
+password:`ansible`(もしくは1-install Step 6でインベントリーファイルへ記入したパスワード)
 
 ![Ansible Tower Login Screen](ansible-lab-figure01-logon-screen.png)
 
@@ -159,7 +159,8 @@ SAVE(保存)をクリックします。 ![Save button](at_save.png)
 
 SSHを利用し、Ansibleコントロールノードへログインします。
 
-`tower-manage`　コマンドを利用して既存のインベントリファイルをAnsible Towerへインポートします。（以下のコマンドの_<location of you inventory>_をAnisbleEngineの演習で利用していたInventoryファイルのパスへ置き換えてください。)
+`tower-manage`　コマンドを利用して既存のインベントリファイルをAnsible Towerへインポートします。（以下のコマンドの_<location of you inventory>_をAnisbleEngineの演習で利用していたInventoryファイルのパス(/home/studentX/lightbulb/lessons/lab_inventory/studentX-instances.txt)
+へ置き換えてください。)
 
 ```
 sudo tower-manage inventory_import --source=<location of you inventory> --inventory-name="Ansible Workshop Inventory"
