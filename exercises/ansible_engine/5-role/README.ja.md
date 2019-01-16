@@ -111,7 +111,6 @@ apache_max_keep_alive_requests: 115
 
 roleに特化した変数を`roles/apache-simple/vars/main.yml` のroleへ追加します。
 
-[source,bash]
 ```
 ---
 # vars file for apache-simple

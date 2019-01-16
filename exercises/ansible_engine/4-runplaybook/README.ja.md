@@ -1,10 +1,8 @@
 # Exercise 4 - apache-basic-playbookを実行する
 
 おめでとうございます!  
-ここまでで、全てではないにしてもAnsibleの主要なコンセプトのほとんどを含んだPlaybookを書き終えることができました。  
-まずは実際に実行できるかを確認してみましょう。
+ここまでで、全てではないにしてもAnsibleの主要なコンセプトのほとんどを含んだPlaybookを書き終えることができました。まずは実際に実行できるかを確認してみましょう。
 
-では、始めます。
 
 ## Section 1 - apache-basic-playbookを実行する
 
@@ -17,6 +15,8 @@ cd ~/apache-basic-playbook
 
 ---
 **NOTE**
+
+
 inventoryファイルはExercise 1で指定したものと同じものを利用します。
 今回の演習では、ansible.cfgファイルで定義されているため、省略が可能です。
 ---
