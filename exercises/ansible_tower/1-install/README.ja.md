@@ -112,4 +112,5 @@ https://コントローラーノードのIPアドレス
 
 ---
 
-[Ansible Lightbulbのページへ戻ります - Ansible Tower Workshop](../README.ja.md)
+[Ansible Linklightのページへ戻ります - Ansible Tower Workshop](../README.ja.md)
+[次へ](../2-config/README.ja.md)

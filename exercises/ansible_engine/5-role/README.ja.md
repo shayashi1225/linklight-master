@@ -1,11 +1,11 @@
-# Exercise 1.5 - Roles: Playbookを再利用可能にする
+# Exercise 5 - Roles: Playbookを再利用可能にする
 
 このワークショップで行ってきているように、Playbookを1つのファイルに書くことも可能です。  
 しかし実際の運用においては、他の人が作成したPlaybookを再利用したくなってくる筈です。
 
 これを実現するのがAnsibleのRolesという考え方です。  
 roleを作成する事でPlaybookをパーツとして分解し、構造化されたディレクトリに格納することができます。  
-「え?? それはExercise 1.2で触れられていた、ややこしい[ベスト・プラクティス](http://docs.ansible.com/ansible/playbooks_best_practices.html)のことですか?」って？  
+「え?? それはExercise 2で触れられていた、ややこしい[ベスト・プラクティス](http://docs.ansible.com/ansible/playbooks_best_practices.html)のことですか?」って？  
 はい、まさにその通りです。
 
 この演習では先に作成したPlaybookをリファクタリングしてroleへと変えます。さらにAnsible Galaxyの使い方も学びます。
@@ -23,7 +23,7 @@ Ansible Galaxyは、roleの検索とダウンロード、そして共有を可�
 
 ### Step 1:
 
- `apache-basic-playbook` プロジェクトへ移動します。
+ `apache-basic-playbook` ディレクトリへ移動します。
 
 ```bash
 cd ~/apache-basic-playbook
@@ -122,12 +122,12 @@ httpd_packages:
 
 ---
 **NOTE**
-####
-> えっと、ちょっと待ってください…​ いま変数を2つの場所に分けて置きませんでしたか？
+
+**えっと、ちょっと待ってください…​ いま変数を2つの場所に分けて置きませんでしたか？**
 
 ええ…​ 実はその通りです。変数は柔軟に配置することができます。例をあげると: +
 
-- vars ディレクトリ
+- varsディレクトリ
 - defaultsディレクトリ
 - group_varsディレクトリ
 - Playbookの `vars:` セクション配下
@@ -157,7 +157,6 @@ httpd_packages:
 `roles/apache-simple/tasks/main.yml` のroleにtasksを追加します。
 
 ```yml
-{% raw %}
 ---
 # tasks file for apache-simple
 - name: install httpd packages
@@ -188,7 +187,6 @@ httpd_packages:
     name: httpd
     state: started
     enabled: yes
-{% endraw %}    
 ```
 
 ### Step 7:
@@ -213,18 +211,59 @@ rm -rf ~/apache-basic-playbook/templates/
 playbookを実行します。
 
 ```bash
+cd ~/apache-basic-playbook
 ansible-playbook site.yml
 ```
 
 もしも問題なく実行されれば、標準出力は以下の図のようになる筈です。
 
-![ロール・ベースの標準出力](stdout_3.png)
+
+```
+
+PLAY [This is my role-based playbook] *****************************************************************************************************************************
+
+TASK [Gathering Facts] ********************************************************************************************************************************************
+ok: [node2]
+ok: [node3]
+ok: [node1]
+
+TASK [apache-simple : install httpd packages] *********************************************************************************************************************
+ok: [node3] => (item=[u'httpd', u'mod_wsgi'])
+ok: [node1] => (item=[u'httpd', u'mod_wsgi'])
+ok: [node2] => (item=[u'httpd', u'mod_wsgi'])
+
+TASK [apache-simple : create site-enabled directory] **************************************************************************************************************
+ok: [node3]
+ok: [node1]
+ok: [node2]
+
+TASK [apache-simple : copy httpd.conf] ****************************************************************************************************************************
+ok: [node1]
+ok: [node3]
+ok: [node2]
+
+TASK [apache-simple : copy index.html] ****************************************************************************************************************************
+ok: [node1]
+ok: [node2]
+ok: [node3]
+
+TASK [apache-simple : start httpd] ********************************************************************************************************************************
+ok: [node3]
+ok: [node2]
+ok: [node1]
+
+PLAY RECAP ********************************************************************************************************************************************************
+node1                      : ok=6    changed=0    unreachable=0    failed=0   
+node2                      : ok=6    changed=0    unreachable=0    failed=0   
+node3                      : ok=6    changed=0    unreachable=0    failed=0   
+```
+
+時間がある場合はApacheをアンインストールするPlaybookを作成・実行して、既にインストール済みの場合と、インストールされていない場合でExercise 5のPlaybook実行時の出力結果（上記）がどう変化するか見てみましょう。
 
 ## Section 4: この演習の最後に
 
-You should now have a completed playbook, `site.yml` with a single role called `apache-simple`.  The advantage of structuring your playbook into roles is that you can now add new roles to the playbook using Ansible Galaxy or simply writing your own.  In addition, roles simplify changes to variables, tasks, templates, etc.
 これで、1つの `apache-simple` roleを持つPlaybook、`site.yml` は完成です。Playbookを構造化されたrolesにすることの利点は、新たなrolesをAnsible Galaxyを使って、または自身の手で記述して追加できることにあります。またrolesを用いれば、容易に変数やtasksやテンプレート等を変更できます。
 
 ---
 
-[Click Here to return to the Ansible Linklight - Ansible Engine Workshop](../README.ja.md)
+[Ansible Linklightのページへ戻ります - Ansible Engine Workshop](../README.ja.md)

@@ -1,34 +1,27 @@
 # Exercise 3 - 変数、ループ、ハンドラを使う
 
-前回までは Ansible Core の基礎部分を学習してきました。次の学習は playbook をより柔軟かつパワフルに使用できる、
-Ansible のより高度なスキルを学びたいと思います。
+先の演習ではAnsible Coreの基本的な部分をご紹介しました。 この後のいくつかの演習では、Playbookに柔軟性を持たせ、そしてパワフルなものへと変えていけるよう、もう一歩踏み込んだ内容について取り上げていきます。
 
-Ansible では task をよりシンプル、かつ再利用可能にできます。私たちは全てのシステムが全く同じではないことはわかっていますし、
-playbookを実行する際、その違いに伴ってしばしば若干の変更が求められる場合があります。その際は変数を使います。
+Ansibleの最大の利点は、taskをシンプルかつ再利用だといえます。しかし、全てのシステムが一様に同じではなく、AnsibleのPlaybookを走らせる際に少しばかり変更が必要となることも考えられます。ここで変数が登場します。
 
-変数はシステム毎の違う部分の扱い、例えば port番号、IPアドレス、ディレクトリなどの違いの部分を吸収し扱う事ができます。
+システム間の差異を変数で埋め、ポートやIPアドレス、そしてディレクトリの変更が出来るようにします。
 
-ループは task を繰り返し実行する場合に使います。例えば10個のソフトウェアパッケージを導入したい場合、ループを使うことにより1つの task で実現できます。
+ループを使えば同じtaskを何度でも繰り返すことができます。10のパッケージをインストールする場合などが分かりやすい例でしょう。 ループを用いれば、これを1つのtaskで行えます。
 
-ハンドラはサービス再起動が必要な場合に使います。新たに設定ファイルの登録や、新規パッケージの導入が行われてはいませんでしたか?
-その際、有効にするにはサービス再起動が必要かもしれません。その場合にハンドラを使用します。
-
-変数、ループ、ハンドラの十分な理解のためには; Ansible documentation の以下部分を確認してください。
+ハンドラはサービスの再起動に用います。新しい構成ファイルを用意したり、新しいパッケージをインストールしたら、サービスを再起動してそれら加えた変更が反映されるようにするはずです。これを担うのがハンドラです。
 
 - [Ansible 変数](http://docs.ansible.com/ansible/latest/playbooks_variables.html)
 - [Ansible ループ](http://docs.ansible.com/ansible/latest/playbooks_loops.html)
 - [Ansible ハンドラ](http://docs.ansible.com/ansible/latest/playbooks_intro.html#handlers-running-operations-on-change)
 
-## Section 1: Playbook の実行
+## Section 1:  Playbookへの変数とループの追加
 
-まずは新しいplaybookを作成します。既に演習 1.2で作成していることもあり、ある程度は慣れた作業かと思います。
+まず最初に新しいPlaybookを作成しますが、これは先の演習 1.2で作成したものによく似ています。
 
-
-2つの webノード上で作成した新しいplaybookを実行します。実行の際は `ansible-playbook` コマンドを使用します。  
 
 ### Step 1:
 
-ホームディレクトリにてプロジェクトとplaybookを作成します。
+ホームディレクトリへ移動し、新しいプロジェクトとPlaybookを作成します。
 
 ```bash
 cd
@@ -61,7 +54,6 @@ playの定義といくつかの変数をPlaybookに追加します。このPlayb
 *install httpd packages* と命名した新規taskを追加します。
 
 ```yml
-{% raw %}
   tasks:
     - name: install httpd packages
       yum:
@@ -69,15 +61,14 @@ playの定義といくつかの変数をPlaybookに追加します。このPlayb
         state: present
       with_items: "{{ httpd_packages }}"
       notify: restart apache service
-{% endraw %}
 ```
 
 ---
 **NOTE**
 
-- `vars:` この後に続いて記述されるものが変数名であることをAnsibleに伝えています +
-- `httpd_packages` httpd_packagesと命名したリスト型（list-type）の変数を定義しています。その後に続いているのは、このパッケージのリストです +
-- `{{ item }}` この記述によって `httpd` や `mod_wsgi` といったリストのアイテムを展開するようAnsibleに伝えています。+
+- `vars:` この後に続いて記述されるものが変数名であることをAnsibleに伝えています
+- `httpd_packages` httpd_packagesと命名したリスト型（list-type）の変数を定義しています。その後に続いているのは、このパッケージのリストです
+- `{{ item }}` この記述によって `httpd` や `mod_wsgi` といったリストのアイテムを展開するようAnsibleに伝えています。
 - `with_items: "{{ httpd_packages }}` Ansibleに `httpd_packages` の `item` 毎にタスクをループ実行するよう Ansible に伝えます
 - `notify: restart apache service` この行は `handler`であり、詳細は Section 3 で触れます
 
@@ -92,7 +83,7 @@ playの定義といくつかの変数をPlaybookに追加します。このPlayb
 
 
 ### Step 1:
-プロジェクトディレクトリ内の `templates` ディレクトリの作成と2ファイルのダウンロードを実施します。
+apache-basic-playbookディレクトリの中に`templates`ディレクトリを作成し、2つのファイルをダウンロードします。
 
 ```bash
 mkdir templates
@@ -132,9 +123,9 @@ curl -O http://ansible-workshop.redhatgov.io/workshop-files/index.html.j2
 **NOTE**
 
 - `file:` このモジュールを使ってファイル、ディレクトリ、シンボリックリンクの作成、変更、削除を行います。
-- `template:` このモジュールで、jinja2テンプレートの利用と実装を指定しています。 `template` は `Files` モジュール・ファミリの中に含まれています。その他の file-management modules here](http://docs.ansible.com/ansible/latest/list_of_files_modules.html) についても、一度目を通しておくことをお勧めします。
-- *jinja* - [jinja2](http://docs.ansible.com/ansible/latest/playbooks_templating.html)は、Ansibleでテンプレートの中のfiltersのような式の中のデータを変更する場合に用います。
-- *service* - serviceモジュールはサービスの起動、停止、有効化、無効化を行います。
+- `template:` このモジュールで、jinja2テンプレートの利用と実装を指定しています。 `template` は `Files` モジュール・ファミリの中に含まれています。その他の [file-management modules here](http://docs.ansible.com/ansible/latest/list_of_files_modules.html) についても、一度目を通しておくことをお勧めします。
+- `jinja` [jinja2](http://docs.ansible.com/ansible/latest/playbooks_templating.html)は、Ansibleでテンプレートの中のfiltersのような式の中のデータを変更する場合に用います。
+- `service` serviceモジュールはサービスの起動、停止、有効化、無効化を行います。
 
 ---
 
@@ -171,7 +162,6 @@ handlers:
 以下の見本を参考に、スペースとインデントに注意して見てください。
 
 ```yml
-{% raw %}
 ---
 - hosts: web
   name: This is a play within a playbook
@@ -219,9 +209,11 @@ handlers:
         name: httpd
         state: restarted
         enabled: yes
-{% endraw %}        
 ```
 
 ---
 
-[Click Here to return to the Ansible Linklight - Ansible Engine Workshop](../README.ja.md)
+[Ansible Linklightのページへ戻ります - Ansible Engine Workshop](../README.ja.md)
+
+
+[次のExerciseへ](../4-runplaybook/README.ja.md)

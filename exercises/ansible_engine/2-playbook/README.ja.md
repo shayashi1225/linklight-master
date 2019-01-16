@@ -128,5 +128,7 @@ Ansible (実際にはYAML) はインデントやスペースの形式が少し�
         state: started
 ```
 ---
+[Ansible Linklightのページへ戻ります - Ansible Engine Workshop](../README.ja.md)
 
-[Click Here to return to the Ansible Linklight - Ansible Engine Workshop](../README.ja.md)
+
+[次のExerciseへ](../3-variables/README.ja.md)

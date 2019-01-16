@@ -45,7 +45,6 @@ sudo vim /var/lib/awx/projects/playbooks/800-53.yml
 上記へはAnsible Playbookの実装においてそれぞれどのように変数を作成し、再帰的に利用し、条件を定義しているかといった方法が記載されています。
 
 ```yml
-{% raw %}
 ---
 - hosts: web
   become: yes
@@ -74,7 +73,6 @@ sudo vim /var/lib/awx/projects/playbooks/800-53.yml
         mode: 0644
       with_items: "{{ results.stdout_lines }}"
       when: item | match("scan-xccdf-report-*")
-{% endraw %}
 ```
 
 ### Step 4:
@@ -167,4 +165,4 @@ http://workshopname.node.#.redhatgov.io/scap
 
 ---
 
-[Ansible Lightbulbのページへ戻ります - Ansible Tower Workshop](../README.ja.md)
+[Ansible Linklightのページへ戻ります - Ansible Tower Workshop](../README.ja.md)

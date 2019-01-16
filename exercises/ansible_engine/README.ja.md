@@ -4,10 +4,14 @@
 
 **Read this in other languages**: [![uk](../../images/uk.png) English](README.md),  [![uk](../../images/japan.png) 日本語](README.ja.md).
 
+<!--
 ## プレゼンテーション
+-->
 
+<!--
 プレゼンテーション資料はこちら:
 [Ansible Essentials Deck](../../decks/ansible-essentials.html)
+-->
 
 ## Ansible エンジン演習
 

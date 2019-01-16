@@ -1,13 +1,18 @@
 # Exercise 1 - アドホック・コマンドの実行
 
 最初のExcerciseは、Ansible の動きを確かめる上でいくつかの アドホック・コマンドを実行します。  
-Ansible アドホック・コマンドはplaybookを作成せずに、CLIから様々なタスクをリモードノードで実行する事ができます。  
+Ansible アドホック・コマンドはplaybookを作成せずに、CLIから様々なタスクをリモートノードで実行する事ができます。  
 簡易かつクイックにタスクを複数のリモートノードに実行したい場合にとても有効な利用方法です。
 
 ## Step 1.1 - インベントリの定義
 
 今回のLabでは事前にインベントリファイルが定義されているため、Step1において、設定などは不要です。  
 ここでは、インベントリファイルが存在するということを認識してください。  
+
+
+デフォルトのインベントリファイル：~/lightbulb/lessons/lab_inventory/studentX-instances.txt
+
+
 インベントリとは、Anisbleが実行対象とするホスト群を定義するファイルです。  
 インベントリでは、以下の例のようにホスト名やIPアドレスがリストされ、グループでソートが可能であり、場合によっては変数などが追加されたini形式のファイルです。
 
@@ -45,7 +50,7 @@ ansible web -m command -a "uptime" -o
 
 ## Step 3:
 
-webノードの定義を見てみましょう。  
+webグループのノード情報を見てみましょう。  
 `setup` モジュールを利用してエンドポイントの facts の内容を出力します。
 
 ```bash
@@ -116,4 +121,7 @@ https://docs.ansible.com/ansible/latest/user_guide/command_line_tools.html
 
 ---
 
-[Click Here to return to the Ansible Linklight - Ansible Engine Workshop](../README.ja.md)
+[Ansible Linklightのページへ戻ります - Ansible Engine Workshop](../README.ja.md)
+
+
+[次のExerciseへ](../2-playbook/README.ja.md)

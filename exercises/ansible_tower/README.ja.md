@@ -13,11 +13,11 @@ Lightbulbのプレゼンテーションスライドはこちらです:
  - [演習 1 - Ansible Towerのインストール](1-install/README.ja.md)
  - [演習 2 - Ansible Towerのコンフィグレーション](2-config/README.ja.md)
  - [演習 3 - Job Templateの作成と実行](3-create/README.ja.md)
-
+<!--
 ## Survey
 アンケートへご協力ください
 -> [アンケートへ](http://bit.ly/net-lightbulb-survey) <-
-
+-->
 ## 追加の情報について
  - [Ansible Tower User Guide](http://docs.ansible.com/ansible-tower/latest/html/userguide/index.html)
  - [Ansible Tower Administration Guide](http://docs.ansible.com/ansible-tower/latest/html/administration/index.html)
