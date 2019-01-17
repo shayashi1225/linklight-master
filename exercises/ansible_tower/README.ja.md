@@ -1,12 +1,14 @@
-# Ansible Lightbulb - Ansible Tower
+# Ansible LinkLight - Ansible Tower
 
 このコンテンツは、Ansible Towerの効率的なデモンストレーションや、ワークショップ型トレーニングを様々な形態(インストラクターリード、ハンズオン形式、セルフペースなど)で実施できるよう、様々な用途を想定して開発された多目的ツールキットです。
 
 **Read this in other languages**: [![uk](../../images/uk.png) English](README.md),  [![uk](../../images/japan.png) 日本語](README.ja.md).
 
+<!--
 ## Presentation
 Lightbulbのプレゼンテーションスライドはこちらです:
 [Ansible Tower Intro Lightbulb Deck](../../decks/intro-to-ansible-tower.html)
+-->
 
 ## Ansible Engine Exercises
 

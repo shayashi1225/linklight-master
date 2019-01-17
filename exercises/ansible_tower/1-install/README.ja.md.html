@@ -582,19 +582,44 @@ pre.editor-colors .fold-marker:after {
 }
 </style>
   </head>
-  <body class='markdown-preview' data-use-github-style><h1 id="ansible-lightbulb-ansible-tower">Ansible LinkLight - Ansible Tower</h1>
-<p>このコンテンツは、Ansible Towerの効率的なデモンストレーションや、ワークショップ型トレーニングを様々な形態(インストラクターリード、ハンズオン形式、セルフペースなど)で実施できるよう、様々な用途を想定して開発された多目的ツールキットです。</p>
-<h2 id="ansible-engine-exercises">Ansible Engine Exercises</h2>
-<ul>
-<li><a href="1-install/README.ja.md.html">演習 1 - Ansible Towerのインストール</a></li>
-<li><a href="2-config/README.ja.md.html">演習 2 - Ansible Towerのコンフィグレーション</a></li>
-<li><a href="3-create/README.ja.md.html">演習 3 - Job Templateの作成と実行</a>
-<h2 id="-">追加の情報について</h2>
-</li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/userguide/index.html">Ansible Tower User Guide</a></li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/administration/index.html">Ansible Tower Administration Guide</a></li>
-</ul>
+  <body class='markdown-preview' data-use-github-style><h1 id="exercise-1-ansible-tower-">Exercise 1 - Ansible Towerのインストール</h1>
+<p>この演習では、あなたのコントロールノードへAnsible Towerのインストールが実行されます。</p>
+<h2 id="ansible-tower-">Ansible Towerのインストール</h2>
+<h3 id="step-1-">Step 1:</h3>
+<p>ディレクトリを /tmp へ移動してください。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"><span class="syntax--support syntax--function">cd</span></span> /tmp</span></div></pre>
+<h3 id="step-2-">Step 2:</h3>
+<p>Ansible Tower の最新版packageをダウンロードします。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">curl</span> <span class="syntax--entity syntax--other syntax--attribute-name">-O</span> https://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-latest.tar.gz</span></div></pre>
+<h3 id="step-3-">Step 3:</h3>
+<p>ダウンロードしたパッケージファイルの Untar と unzip を実行します。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">tar</span> xvfz /tmp/ansible-tower-setup-latest.tar.gz</span></div></pre>
+<h3 id="step-4-">Step 4:</h3>
+<p>Ansible Towerパッケージを解凍したディレクトリへ移動します。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"><span class="syntax--support syntax--function">cd</span></span> /tmp/ansible-tower-setup-*/</span></div></pre>
+<h3 id="step-5-">Step 5:</h3>
+<p>inventoryファイルを編集します。(ここではvimを用いていますが、好みのエディターを使ってください)</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">vim</span> inventory</span></div></pre>
+<h3 id="step-6-">Step 6:</h3>
+<p>inventoryファイル内で、AnisbleTowerが必要とするパスワードを変数として追加します。<br>以下の3つへ任意のパスワード情報を記述してください。:<br><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">admin_password, pg_password, rabbitmq_password</code></p>
+<pre class="editor-colors lang-ini"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">[tower]</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">localhost ansible_connection=local</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">[database]</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">[all:vars]</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">admin_password='ansibleWS'</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">pg_host=''</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">pg_port=''</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">pg_database='awx'</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">pg_username='awx'</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">pg_password='ansibleWS'</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">rabbitmq_port=5672</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">rabbitmq_vhost=tower</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">rabbitmq_username=tower</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">rabbitmq_password='ansibleWS'</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">rabbitmq_cookie=cookiemonster</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">= Needs to be true for fqdns and ip addresses</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">rabbitmq_use_long_name=false</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div></pre>
+<h3 id="step-7-">Step 7:</h3>
+<p>Ansible Tower のセットアップスクリプトを実行します。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">sudo</span> ./setup.sh</span></div></pre>
 <hr>
-<p> <img alt="Ansible Tower" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/ansible_tower_logo.png"></p>
-<p>Red Hat® Ansible® Tower is a fully supported product built on the simple, powerful and agentless foundation capabilities derived from the Ansible project.  Please visit <a href="https://www.ansible.com/tower">ansible.com</a> for more information.</p></body>
+<p><strong>NOTE</strong>
+Step 7 のセットアップスクリプトの完了まで10-15分ほど時間がかかります。
+良いタイミングなので、休憩を取りましょう。</p>
+<hr>
+<h3 id="-">結果</h3>
+<p>セットアップスクリプトがfail=0で終了している場合、あなたのAnsible Towerのインストレーションは無事に完了しているはずです。
+以下のURLからAnsible Towerへアクセスしてみましょう。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">https://コントローラーノードのIPアドレス</span></span></div></pre>
+<h3 id="-">インストール結果の確認</h3>
+<p>ブラウザでの確認では、証明書エラーが表示されるかもしれませんが、本日のWSでは無視してください。
+コントローラーノードのIPアドレスへアクセスし、以下のようなAnsible TowerのGUIが確認できれば、インストレーション結果の確認までが完了しました。</p>
+<p><img alt="Ansible Tower Login Screen" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/1-install/ansible-lab-figure01-logon-screen.png"></p>
+<hr>
+<p><a href="../README.ja.md.html">Ansible Linklightのページへ戻ります - Ansible Tower Workshop</a></p>
+<p><a href="../2-config/README.ja.md.html">次のExerciseへ</a></p></body>
 </html>

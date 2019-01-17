@@ -582,19 +582,199 @@ pre.editor-colors .fold-marker:after {
 }
 </style>
   </head>
-  <body class='markdown-preview' data-use-github-style><h1 id="ansible-lightbulb-ansible-tower">Ansible LinkLight - Ansible Tower</h1>
-<p>このコンテンツは、Ansible Towerの効率的なデモンストレーションや、ワークショップ型トレーニングを様々な形態(インストラクターリード、ハンズオン形式、セルフペースなど)で実施できるよう、様々な用途を想定して開発された多目的ツールキットです。</p>
-<h2 id="ansible-engine-exercises">Ansible Engine Exercises</h2>
+  <body class='markdown-preview' data-use-github-style><h1 id="exercise-2-ansible-tower-">Exercise 2 - Ansible Towerのコンフィグレーション</h1>
+<p>この演習を実施することにより、Ansible Towerを用いてPlaybookが実行できるようになります。</p>
 <ul>
-<li><a href="1-install/README.ja.md.html">演習 1 - Ansible Towerのインストール</a></li>
-<li><a href="2-config/README.ja.md.html">演習 2 - Ansible Towerのコンフィグレーション</a></li>
-<li><a href="3-create/README.ja.md.html">演習 3 - Job Templateの作成と実行</a>
-<h2 id="-">追加の情報について</h2>
-</li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/userguide/index.html">Ansible Tower User Guide</a></li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/administration/index.html">Ansible Tower Administration Guide</a></li>
+<li>ブラウザで利用している言語により、この演習内のナビゲート情報は変更になります。適宜読み替えをお願い致します。</li>
 </ul>
+<h2 id="ansible-tower-">Ansible Towerのコンフィグレーション</h2>
+<p>Anabilities Towerは、RestAPIでの実行、マルチテナント、通知、スケジューリングなどを可能にしますが、今回のワークショップでは以下へリストする、最低限必要な主要コンセプトに焦点を絞って説明します。</p>
+<ul>
+<li>Credentials(クレデンシャル、認証情報)</li>
+<li>Projects</li>
+<li>Inventory</li>
+<li>Job Template</li>
+</ul>
+<h2 id="ansible-tower-">Ansible Towerへのログインとライセンスキーのインストール</h2>
+<h3 id="step-1-">Step 1:</h3>
+<p>以下の認証情報を用いてAnsible Towerへログインします。</p>
+<p>Username:<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">admin</code></p>
+<p>password:<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">ansible</code>(もしくは1-install Step 6でインベントリーファイルへ記入したパスワード)</p>
+<p><img alt="Ansible Tower Login Screen" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/ansible-lab-figure01-logon-screen.png"></p>
+<p>ログインが完了すると、ライセンスのリクエストか、ライセンスファイルの投入を求められるページが表示されます。</p>
+<p><img alt="Uploading a License" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_lic_prompt.png"></p>
+<h3 id="step-2-">Step 2:</h3>
+<p>次のURL <a href="https://www.ansible.com/workshop-license">https://www.ansible.com/workshop-license</a> で workshop専用のlicenseをリクエストしてください。
+通常はすぐ(1~2分)にメールでライセンスファイルが送られるはずです。
+メールに添付されているライセンスファイルを用いて、AnsibleTowerのライセンスを有効化します。</p>
+<h3 id="step-3-">Step 3:</h3>
+<p>Ansible TowerのUIへ戻り、 BROWSEボタンをクリックします。 <img alt="Browse button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_browse.png">
+送付されてきたライセンスファイルをAnsibleTowerへアップロードしてください。</p>
+<h3 id="step-4-">Step 4:</h3>
+<p>使用許諾の確認へチェックを入れます。 "<em>I agree to the End User License Agreement</em>"</p>
+<h3 id="step-5-">Step 5:</h3>
+<p>SUBMITボタンをクリックし、完了です。<img alt="Submit button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_submit.png"></p>
+<h2 id="credential-">Credential(認証情報)の作成</h2>
+<p>Credentials(認証情報)は、Ansible Towerがジョブなどを実行する際に利用されます。サーバに対するジョブやインベントリー情報の同期、SCMとのプロジェクト同期を実行する際などに利用されます。</p>
+<p><a href="http://docs.ansible.com/ansible-tower/latest/html/userguide/credentials.html#credential-types">認証情報のタイプ</a> は様々です。
+ サーバ(Machine)や、Network、AWSなどのクラウドなどがありますが、このワークショップでは <em>Machine</em> の認証情報(クレデンシャル)を利用します。</p>
+<h3 id="step-1-">Step 1:</h3>
+<p>画面左の一覧からCREDENTIALS (認証情報) をクリックします。</p>
+<h3 id="step-2-">Step 2:</h3>
+<p>＋ (追加)をクリックします。<img alt="Add button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_add.png"></p>
+<h3 id="step-3-">Step 3:</h3>
+<p>以下の表の通りに入力し、ワークショップの中で利用する認証情報をコンフィグします。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME (名前)</td>
+<td>Ansible Workshop Credential</td>
+</tr>
+<tr>
+<td>DESCRIPTION (説明)</td>
+<td>Machine credential for run job templates during workshop</td>
+</tr>
+<tr>
+<td>ORGANIZATION (組織)</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>CREDENTIAL TYPE(認証情報タイプ)</td>
+<td>Machine (マシン)</td>
+</tr>
+<tr>
+<td>USERNAME (ユーザー名)</td>
+<td>studentXX (配布されたユーザ情報)</td>
+</tr>
+<tr>
+<td>PASSWORD</td>
+<td>ansible (配布されたパスワード)</td>
+</tr>
+<tr>
+<td>PRIVILEGE ESCALATION METHOD (権限昇格方法)</td>
+<td>sudo</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Adding a Credential" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_cred_detail.png"></p>
+<h3 id="step-4-">Step 4:</h3>
+<p>SAVE(保存)をクリックします。 <img alt="Save button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_save.png"></p>
+<h2 id="project-">Project (プロジェクト)の作成</h2>
+<p>Projectは、Ansible Tower内のPlaybookの論理的なコレクションです。
+Projectを作成することで、あなたはPlaybookをTower Server内のProjectに基づいたPathへ直接配置したり、Git、Subversion、Mercurialなどに代表されるソースコードマネジメントシステム(SCM)を利用して配置するといった、Playbookの管理を行うことができます。</p>
+<h3 id="step-1-">Step 1:</h3>
+<p>画面左の一覧からPROJECTS(プロジェクト)をクリックします。</p>
+<h3 id="step-2-">Step 2:</h3>
+<p>＋ (追加)をクリックします。 <img alt="Add button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_add.png"></p>
+<h3 id="step-3-">Step 3:</h3>
+<p>以下の値を利用して新規プロジェクトを作成します。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME(名前)</td>
+<td>Ansible Workshop Project</td>
+</tr>
+<tr>
+<td>DESCRIPTION(説明)</td>
+<td>workshop playbooks</td>
+</tr>
+<tr>
+<td>ORGANIZATION(組織)</td>
+<td>Default</td>
+</tr>
+<tr>
+<td>SCM TYPE(SCMタイプ)</td>
+<td>Git</td>
+</tr>
+<tr>
+<td>SCM URL</td>
+<td><a href="https://github.com/ansible/lightbulb">https://github.com/ansible/lightbulb</a></td>
+</tr>
+<tr>
+<td>SCM BRANCH</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>SCM UPDATE OPTIONS(SCM更新オプション)</p>
+<ul>
+<li><label>
+  <input checked="" class="task-list-item-checkbox" type="checkbox">
+   Clean(クリーニング)
+</label></li>
+<li><label>
+  <input checked="" class="task-list-item-checkbox" type="checkbox">
+   Delete on Update(更新時の削除)
+</label></li>
+<li><label>
+  <input checked="" class="task-list-item-checkbox" type="checkbox">
+   Update on Launch(起動時のリビジョン更新)
+</label></li>
+</ul>
+<p><img alt="Defining a Project" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_project_detail.png"></p>
+<h3 id="step-4-">Step 4:</h3>
+<p>SAVE(保存)をクリックします。 <img alt="Save button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_save.png"></p>
+<h2 id="inventory-">Inventory(インベントリ) の作成</h2>
+<p>インベントリとは、Jobが実行可能なホストのコレクションです。
+インベントリはグループごとに分離され、グループ内にJobが実行されるホストが含まれることになります。
+グループはAnsible Towerでホスト名を手動で入力したり、Ansible Towerがサポートしているクラウド・プロバイダーから入手します。</p>
+<p>nventoryは<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">tower-manage</code>コマンドを使ってAnsible Towerへインポートすることも可能で、今回のワークショップではこの方法でInventoryを追加します。</p>
+<h3 id="step-1-">Step 1:</h3>
+<p>画面左の一覧からINVENTORIES (インベントリー)をクリックします。</p>
+<h3 id="step-2-">Step 2:</h3>
+<p>＋ (追加)をクリック、Inventory(インベントリー)を選択します <img alt="Add button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_add.png"></p>
+<h3 id="step-3-">Step 3:</h3>
+<p>以下の値を利用して、新規Inventoryを作成します。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME(名前)</td>
+<td>Ansible Workshop Inventory</td>
+</tr>
+<tr>
+<td>DESCRIPTION(説明)</td>
+<td>workshop hosts</td>
+</tr>
+<tr>
+<td>ORGANIZATION(組織)</td>
+<td>Default</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Create an Inventory" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_inv_create.png"></p>
+<h3 id="step-4-">Step 4:</h3>
+<p>SAVE(保存)をクリックします。 <img alt="Save button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_save.png"></p>
+<h3 id="step-5-">Step 5:</h3>
+<p>SSHを利用し、Ansibleコントロールノードへログインします。</p>
+<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">tower-manage</code>　コマンドを利用して既存のインベントリファイルをAnsible Towerへインポートします。（以下のコマンドの<em></em>をAnisbleEngineの演習で利用していたInventoryファイルのパス(/home/studentX/lightbulb/lessons/lab_inventory/studentX-instances.txt)
+へ置き換えてください。)</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="syntax--text syntax--plain"><span class="syntax--meta syntax--paragraph syntax--text">sudo tower-manage inventory_import --source=&lt;location of you inventory&gt; --inventory-name="Ansible Workshop Inventory"</span></span></div></pre><p>以下のような出力になるはずです:</p>
+<p><img alt="Importing an inventory with tower-manage" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_tm_stdout.png"></p>
+<p>Ansible Towerのインベントリを確認してみてください。
+先ほど作成したインベントリ"Ansible Workshop Inventory"内に、グループWebと、その中にノードが登録されていることが確認できるはずです。</p>
+<p><img alt="Inventory with Groups" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/2-config/at_inv_group.png"></p>
+<h3 id="-">結果</h3>
+<p>ここまでで、Ansible Towerの基本的な構成を終えることができました。
+次の演習ではjob templateの作成と実行に焦点を当て、Ansible Towerがどのように機能するかを実際に見ていきます。</p>
 <hr>
-<p> <img alt="Ansible Tower" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/ansible_tower_logo.png"></p>
-<p>Red Hat® Ansible® Tower is a fully supported product built on the simple, powerful and agentless foundation capabilities derived from the Ansible project.  Please visit <a href="https://www.ansible.com/tower">ansible.com</a> for more information.</p></body>
+<p><a href="../README.ja.md.html">Ansible Linklightのページへ戻ります - Ansible Tower Workshop</a></p>
+<p><a href="../3-create/README.ja.md.html">次のExerciseへ</a></p></body>
 </html>

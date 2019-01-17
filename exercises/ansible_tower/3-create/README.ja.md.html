@@ -582,19 +582,149 @@ pre.editor-colors .fold-marker:after {
 }
 </style>
   </head>
-  <body class='markdown-preview' data-use-github-style><h1 id="ansible-lightbulb-ansible-tower">Ansible LinkLight - Ansible Tower</h1>
-<p>このコンテンツは、Ansible Towerの効率的なデモンストレーションや、ワークショップ型トレーニングを様々な形態(インストラクターリード、ハンズオン形式、セルフペースなど)で実施できるよう、様々な用途を想定して開発された多目的ツールキットです。</p>
-<h2 id="ansible-engine-exercises">Ansible Engine Exercises</h2>
+  <body class='markdown-preview' data-use-github-style><h1 id="exercise-3-job-template-">Exercise 3 - Job Templateの作成と実行</h1>
+<p>Job Templateは、Ansibleのjobを実行するための定義と様々なパラメータのセットです。
+同じjobを定義された同一の情報で何度も実行するために、非常に有効です。</p>
+<h2 id="job-template-survey-">Job Template の作成とSurveyの追加</h2>
+<h3 id="step-1-">Step 1:</h3>
+<p>画面左の一覧からTEMPLATES(テンプレート)を選択します。</p>
+<h3 id="step-2-">Step 2:</h3>
+<p>＋ (追加)をクリックし、 <img alt="Add button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_add.png">  JOB TEMPLATE (ジョブテンプレート)を選択します。</p>
+<h3 id="step-3-">Step 3:</h3>
+<p>下記の値でJob Templateを作成し、保存します。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME(名前)</td>
+<td>Apache Basic Job Template</td>
+</tr>
+<tr>
+<td>DESCRIPTION(説明)</td>
+<td>Template for the apache-basic-playbook</td>
+</tr>
+<tr>
+<td>JOB TYPE(ジョブタイプ)</td>
+<td>Run (実行)</td>
+</tr>
+<tr>
+<td>INVENTORY(インベントリー)</td>
+<td>Ansible Workshop Inventory</td>
+</tr>
+<tr>
+<td>PROJECT(プロジェクト)</td>
+<td>Ansible Workshop Project</td>
+</tr>
+<tr>
+<td>PLAYBOOK</td>
+<td>examples/apache-basic-playbook/site.yml</td>
+</tr>
+<tr>
+<td>MACHINE CREDENTIAL(認証情報)</td>
+<td>Ansible Workshop Credential</td>
+</tr>
+<tr>
+<td>LIMIT(制限)</td>
+<td>web</td>
+</tr>
+</tbody>
+</table>
+<p>OPTIONS(オプション)</p>
 <ul>
-<li><a href="1-install/README.ja.md.html">演習 1 - Ansible Towerのインストール</a></li>
-<li><a href="2-config/README.ja.md.html">演習 2 - Ansible Towerのコンフィグレーション</a></li>
-<li><a href="3-create/README.ja.md.html">演習 3 - Job Templateの作成と実行</a>
-<h2 id="-">追加の情報について</h2>
-</li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/userguide/index.html">Ansible Tower User Guide</a></li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/administration/index.html">Ansible Tower Administration Guide</a></li>
+<li><label>
+  <input checked="" class="task-list-item-checkbox" type="checkbox">
+   Enable Privilege Escalation(権限昇格の有効化)
+</label></li>
 </ul>
+<p><img alt="Job Template Form" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_jt_detail.png"></p>
+<h3 id="step-4-">Step 4:</h3>
+<p>Save (保存)をクリックします。 <img alt="Save button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_save.png"><br>保存が完了したら、SURVEYの追加をクリックします。 <img alt="Add" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_addsurvey.png"></p>
+<h3 id="step-5-">Step 5:</h3>
+<p>下記の値でSURVEY機能で取り込みたい値のフォームを作成します。</p>
+<p>SURVEY機能を利用することで、Ansible TowerからJobを実行する際に任意の値をユーザが追加することができます。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PROMPT(プロンプト)</td>
+<td>Please enter a test message for your new website</td>
+</tr>
+<tr>
+<td>DESCRIPTION(説明)</td>
+<td>Website test message prompt</td>
+</tr>
+<tr>
+<td>ANSWER VARIABLE NAME(回答の変数名)</td>
+<td>apache_test_message</td>
+</tr>
+<tr>
+<td>ANSWER TYPE(回答タイプ)</td>
+<td>Text</td>
+</tr>
+<tr>
+<td>MINIMUM/MAXIMUM LENGTH</td>
+<td>Use the defaults</td>
+</tr>
+<tr>
+<td>DEFAULT ANSWER</td>
+<td>Be creative, keep it clean, we're all professionals here</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Survey Form" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_survey_detail.png"></p>
+<h3 id="step-6-">Step 6:</h3>
+<p>＋ADD をクリックします。</p>
+<h3 id="step-7-">Step 7:</h3>
+<p>SAVE (保存)をクリックします。 <img alt="Add button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_save.png"></p>
+<h3 id="step-8-">Step 8:</h3>
+<p>先ほど作成したJob Templateページに戻り、再度SAVE (保存)を選択します。 <img alt="Add button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_save.png"></p>
+<h2 id="job-template-">Job Templateの実行</h2>
+<p>ここまででJob Templateの作成が完了し、いよいよ実行できるようになりました。Job Templateを実行すると、リアルタイムでジョブのステータスを表示するジョブ・スクリーンへリダイレクトされます。</p>
+<h3 id="step-1-">Step 1:</h3>
+<p>画面左の一覧からTEMPLATES(テンプレート)を選択します。</p>
 <hr>
-<p> <img alt="Ansible Tower" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/ansible_tower_logo.png"></p>
-<p>Red Hat® Ansible® Tower is a fully supported product built on the simple, powerful and agentless foundation capabilities derived from the Ansible project.  Please visit <a href="https://www.ansible.com/tower">ansible.com</a> for more information.</p></body>
+<p><strong>NOTE</strong>
+もしJob Templatesの作成ページから移動していない場合は、スクロール・ダウンして全ての既存のJob Templatesを確認することもできます。</p>
+<hr>
+<h3 id="step-2-">Step 2:</h3>
+<p><em>Apache Basic Job Template</em>の横にあるロケットのアイコン <img alt="Launch button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_launch_icon.png"> をクリックしてジョブを実行しましょう。</p>
+<h3 id="step-3-">Step 3:</h3>
+<p>先ほどSurveyで作成したプロンプトが出現するはずです。
+適当なテストメッセージを入力し、NEXT (次へ)をクリックします。</p>
+<p><img alt="Survey Prompt" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_survey_prompt.png"></p>
+<h3 id="step-4-">Step 4:</h3>
+<p>LAUNCH (起動) を選択します。</p>
+<p><img alt="Survey launch button" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_survey_launch.png"></p>
+<h3 id="step-5-">Step 5:</h3>
+<p>何が起きるかを見ていきましょう。</p>
+<p>ジョブが実行されると、左側のウィンドウには実行されているジョブのサマリーが表示されます。</p>
+<p>ここには、このジョブが、いつ/誰によって/どのプレイブックが/どのバージョンで/どの認証情報で実行されているのか？ということが記載されています。
+ここには追加の変数(EXTRA VARIABLES)としてどのような値がSurveyから追加されたのか？やジョブの実行結果(実行中、ペンディング、完了)などの情報も付与されています。</p>
+<p><img alt="Job Summary" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_job_status.png"></p>
+<p>スクロールしていくと、Playbookの個別のタスク状態も確認できるはずです。</p>
+<p><img alt="Play and Task Details" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_job_tasklist.png"></p>
+<p>右側には、Ansible Coreをコマンドラインから走らせた場合と同じ内容の標準出力が表示されます。</p>
+<p><img alt="Job Standard Output" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_job_stdout.png"></p>
+<h3 id="step-6-">Step 6:</h3>
+<p>Jobが問題なく完了したなら、JobTemplateの実行によって作成された新しいWebサイトを見てみましょう。<br>実行対象となったWebサーバのIPアドレスは、AnsibleTowerの<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">インベントリー/Ansible Workshop Inventory/ホスト</code> 以下に格納された情報か、先ほどインポートしたAnsibleEngineのinventoryファイル内で確認することができます。  </p>
+<p>コントロールホストで以下を実行して、[web]グループのサーバIPを確認してみましょう。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">cat</span> /home/student40/lightbulb/lessons/lab_inventory/studentXX-instances.txt</span></div></pre>
+<p>上記のインベントリで確認ができた3台のWebサーバへHTTPでアクセスが可能なはずです。<br>それぞれのWebサーバはどのように表示されるでしょうか？</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">http://</span><span class="syntax--keyword syntax--operator">&lt;</span>webグループのnode1,node2,node3のIPアドレス<span class="syntax--keyword syntax--operator">&gt;</span></span></div></pre>
+<p>意図した通りにジョブが実行されていれば、Surveyへ入力したテスト・メッセージと共に以下のような画面が表示されている筈です。</p>
+<p><img alt="New Website with Personalized Test Message" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/3-create/at_web_tm.png"></p>
+<h2 id="-">結果</h2>
+<p>ここまででAnsible Towerの基本的な機能を体験することができました。<br>そしてもちろん、Ansible Towerはもっと多くのことができます！<br>このワークショップでこれまで見てきたことは Ansible EngineとTowerが備えた数多くの機能のほんの入り口だけです。<br>このガイドの資料のページを参照して、様々な機能を学び、試してみてください。</p>
+<hr>
+<p><a href="../README.ja.md.html">Ansible Linklightのページへ戻ります - Ansible Tower Workshop</a></p></body>
 </html>

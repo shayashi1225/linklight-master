@@ -582,19 +582,48 @@ pre.editor-colors .fold-marker:after {
 }
 </style>
   </head>
-  <body class='markdown-preview' data-use-github-style><h1 id="ansible-lightbulb-ansible-tower">Ansible LinkLight - Ansible Tower</h1>
-<p>このコンテンツは、Ansible Towerの効率的なデモンストレーションや、ワークショップ型トレーニングを様々な形態(インストラクターリード、ハンズオン形式、セルフペースなど)で実施できるよう、様々な用途を想定して開発された多目的ツールキットです。</p>
-<h2 id="ansible-engine-exercises">Ansible Engine Exercises</h2>
-<ul>
-<li><a href="1-install/README.ja.md.html">演習 1 - Ansible Towerのインストール</a></li>
-<li><a href="2-config/README.ja.md.html">演習 2 - Ansible Towerのコンフィグレーション</a></li>
-<li><a href="3-create/README.ja.md.html">演習 3 - Job Templateの作成と実行</a>
-<h2 id="-">追加の情報について</h2>
-</li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/userguide/index.html">Ansible Tower User Guide</a></li>
-<li><a href="http://docs.ansible.com/ansible-tower/latest/html/administration/index.html">Ansible Tower Administration Guide</a></li>
-</ul>
+  <body class='markdown-preview' data-use-github-style><h1 id="exercise-1-">Exercise 1 - アドホック・コマンドの実行</h1>
+<p>最初のExcerciseは、Ansible の動きを確かめる上でいくつかの アドホック・コマンドを実行します。<br>Ansible アドホック・コマンドはplaybookを作成せずに、CLIから様々なタスクをリモートノードで実行する事ができます。<br>簡易かつクイックにタスクを複数のリモートノードに実行したい場合にとても有効な利用方法です。</p>
+<h2 id="step-1-1-">Step 1.1 - インベントリの定義</h2>
+<p>今回のLabでは事前にインベントリファイルが定義されているため、Step1において、設定などは不要です。<br>ここでは、インベントリファイルが存在するということを認識してください。  </p>
+<p>デフォルトのインベントリファイル：~/lightbulb/lessons/lab_inventory/studentX-instances.txt</p>
+<p>インベントリとは、Anisbleが実行対象とするホスト群を定義するファイルです。<br>インベントリでは、以下の例のようにホスト名やIPアドレスがリストされ、グループでソートが可能であり、場合によっては変数などが追加されたini形式のファイルです。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell">[all:vars]</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--variable syntax--other syntax--member">ansible_user</span>=studentX</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--variable syntax--other syntax--member">ansible_ssh_pass</span>=PASSWORD</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--variable syntax--other syntax--member">ansible_port</span>=22</span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--shell">[web]</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">node1</span> ansible_host=11.22.33.44</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">node2</span> ansible_host=22.33.44.55</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">node3</span> ansible_host=33.44.55.66</span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--shell">[control]</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> ansible_host=44.55.66.77</span></div></pre>
+<h2 id="step-1-2-ping-">Step 1.2 - ホストへのping実行</h2>
+<p>まずはホストへのping実行から始めましょう。<br><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">ping</code> モジュールを利用しwebグループのホストがAnsibleに応答可能であることを確認します。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> ping</span></div></pre>
+<h2 id="step-2-">Step 2:</h2>
+<p>Linuxコマンド形式で <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">command</code> モジュールを実行してみましょう。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> command <span class="syntax--entity syntax--other syntax--attribute-name">-a</span> <span class="syntax--string">"uptime"</span> <span class="syntax--entity syntax--other syntax--attribute-name">-o</span></span></div></pre>
+<h2 id="step-3-">Step 3:</h2>
+<p>webグループのノード情報を見てみましょう。<br><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setup</code> モジュールを利用してエンドポイントの facts の内容を出力します。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> setup</span></div></pre>
+<h2 id="step-4-">Step 4:</h2>
+<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">yum</code> モジュールを利用してApacheをインストールしてみましょう。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> yum <span class="syntax--entity syntax--other syntax--attribute-name">-a</span> <span class="syntax--string">"name=httpd state=present"</span> <span class="syntax--entity syntax--other syntax--attribute-name">-b</span></span></div></pre>
+<h2 id="step-5-">Step 5:</h2>
+<p>Apacheのインストールが完了したら、<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">service</code> モジュールを利用してサービスを起動してみましょう。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> service <span class="syntax--entity syntax--other syntax--attribute-name">-a</span> <span class="syntax--string">"name=httpd state=started"</span> <span class="syntax--entity syntax--other syntax--attribute-name">-b</span></span></div></pre>
+<h2 id="step-6-">Step 6:</h2>
+<p>最後に設定した情報をクリーンナップしていきます。<br>まずはhttpdサービスの停止を行います。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> service <span class="syntax--entity syntax--other syntax--attribute-name">-a</span> <span class="syntax--string">"name=httpd state=stopped"</span> <span class="syntax--entity syntax--other syntax--attribute-name">-b</span></span></div></pre>
+<h2 id="step-7-">Step 7:</h2>
+<p>次に、Apacheパッケージを削除します。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> yum <span class="syntax--entity syntax--other syntax--attribute-name">-a</span> <span class="syntax--string">"name=httpd state=absent"</span> <span class="syntax--entity syntax--other syntax--attribute-name">-b</span></span></div></pre>
 <hr>
-<p> <img alt="Ansible Tower" src="/Users/shayashi/workspace/linklight-master/exercises/ansible_tower/ansible_tower_logo.png"></p>
-<p>Red Hat® Ansible® Tower is a fully supported product built on the simple, powerful and agentless foundation capabilities derived from the Ansible project.  Please visit <a href="https://www.ansible.com/tower">ansible.com</a> for more information.</p></body>
+<p><strong>NOTE</strong></p>
+<p>多くのLinuxコマンドと同様に、Ansibleの実行コマンドも省略することが可能です。<br>例えば、</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">--module-name</span> ping</span></div></pre>
+<p>は、以下のように省略した形でも実行できます。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> web <span class="syntax--entity syntax--other syntax--attribute-name">-m</span> ping</span></div></pre>
+<p>当ワークショップでは以降、コマンドを省略した形で使用していきます。</p>
+<p>この章で利用したモジュールについては、以下で利用方法などが確認できます。
+<a href="https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html">https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html</a></p>
+<p>コマンドラインで利用されているオプションを調べる際には、以下のコマンドを実行してください。</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">ansible</span> <span class="syntax--entity syntax--other syntax--attribute-name">--help</span></span></div></pre>
+<p>以下のリンクを参照すると、この後の章で出てくるコマンドとそのオプションを調べることができます。
+<a href="https://docs.ansible.com/ansible/latest/user_guide/command_line_tools.html">https://docs.ansible.com/ansible/latest/user_guide/command_line_tools.html</a></p>
+<hr>
+<p><a href="../README.ja.md.html">Ansible Linklightのページへ戻ります - Ansible Engine Workshop</a></p>
+<p><a href="../2-playbook/README.ja.md.html">次のExerciseへ</a></p></body>
 </html>
