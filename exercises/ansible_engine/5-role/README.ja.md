@@ -67,7 +67,7 @@ rm -rf files tests
 ```
 
 
-## Section 2: `site.yml` Playbookを新たに作成した`apache-simple` roleへ切り分ける
+## Section 2: `site.yml` Playbookを新たに作成した`apache-simple` roleへ切り替える
 
 
 このセクションではPlaybookに含まれている`vars:`、 `tasks:`、 `template:`、 そして `handlers:` を主要パーツとして切り分けます。
