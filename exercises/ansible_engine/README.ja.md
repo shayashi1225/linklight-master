@@ -1,4 +1,4 @@
-# Ansible Linklight - Ansible エンジン
+# Ansible LinkLight - Ansible Engine
 
 このコンテンツは、Ansibleの効果的なデモンストレーション、ワークショップ、ハンズオン、自己学習など、さまざまな目的や用途で利用可能なツールです。
 
