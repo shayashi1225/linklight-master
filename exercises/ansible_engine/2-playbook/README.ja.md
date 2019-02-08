@@ -17,14 +17,16 @@ Ansibleには、playbookディレクトリ構成の[ベスト・プラクティ�
 今回は、とてもシンプルなplaybookディレクトリ構成と、そこに複数ファイルを追加する簡易な形で進めます。
 
 
-*ステップ 1:* 以下のように *apache_basic* をホームディレクトリとして作成し、作成したディレクトリに移動します。
+### Step 1:
+以下のように *apache_basic* をホームディレクトリとして作成し、作成したディレクトリに移動します。
 
 ```bash
 mkdir ~/apache_basic
 cd ~/apache_basic
 ```
 
-*ステップ 2:* `vi` または `vim` で `install_apache.yml` ファイルを作成編集します。
+### Step 2:
+ `vi` または `vim` で `install_apache.yml` ファイルを作成編集します。
 
 
 ## Section 2: Play の定義
@@ -127,6 +129,64 @@ Ansible (実際にはYAML) はインデントやスペースの形式が少し�
         name: httpd
         state: started
 ```
+
+## Section 5: playbookの実行
+
+では3つのWebノードで、このまっさらのPlaybookを走らせてみましょう。そのためにはansible-playbookコマンドを使います。
+
+Playbookのあるディレクトリ（~/apache_basic）からPlaybookを走らせます。
+
+```bash
+ansible-playbook install_apache.yml
+```
+でもこのコマンドを走らせるのを少しだけ待って、ここでは使用していませんが、オプションに目を向けてみましょう。
+
+- *-i* このオプションは、利用する特定のInventoryファイルを指定します。
+- *-k* このオプションは、ユーザがPlaybookを走らせる際にパスワードを要求します。
+- *-v* このオプションを使えばverboseモードでPlaybookを走らせることができます。2回目にPlaybookを走らせる際、-vまたは-vvを利用して表示されるメッセージを増やしてみてください。
+- *--syntax-check* 意図したとおりにPlaybookが走らない場合は、このオプションを使えばどこで問題が発生しているのか調べることができます。コードのコピー／ペーストで発生したによる問題箇所も見つけることができるはずです。
+```bash
+ansible-playbook install_apache.yml --syntax-check
+```
+
+
+それでは、ステップ 1にあるとおりのやり方でPlaybookを走らせてみましょう。
+
+標準の出力では、以下のような内容が表示されるはずです：
+```
+[student1@ansible apache_basic]$ ansible-playbook install_apache.yml
+
+PLAY [Install the apache web service] **********************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************
+ok: [node2]
+ok: [node3]
+ok: [node1]
+
+TASK [install apache] **************************************************************************************************
+changed: [node2]
+changed: [node3]
+changed: [node1]
+
+TASK [start httpd] *****************************************************************************************************
+changed: [node3]
+changed: [node1]
+changed: [node2]
+
+PLAY RECAP *************************************************************************************************************
+node1                      : ok=3    changed=2    unreachable=0    failed=0   
+node2                      : ok=3    changed=2    unreachable=0    failed=0   
+node3                      : ok=3    changed=2    unreachable=0    failed=0   
+```
+playと各taskには名前がつけれられているため、何が、どのノードに対して行われたのかを把握できます。また、記述していないGathering Factsというtaskがあることにも気がつくはずです。これは、この[setupモジュール](https://docs.ansible.com/ansible/latest/modules/setup_module.html)がデフォルトで走るようになっているからです。これをOFFにしたい場合は、playの中で以下のようにgather_facts: falseと定義します：
+```yml
+---
+- hosts: web
+  name: Install the apache web service
+  become: yes
+  gather_facts: false
+```
+
 ---
 [Ansible Linklightのページへ戻ります - Ansible Engine Workshop](../README.ja.md)
 

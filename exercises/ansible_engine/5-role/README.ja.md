@@ -257,9 +257,19 @@ node2                      : ok=6    changed=0    unreachable=0    failed=0
 node3                      : ok=6    changed=0    unreachable=0    failed=0   
 ```
 
-時間がある場合はApacheをアンインストールするPlaybookを作成・実行して、既にインストール済みの場合と、インストールされていない場合でExercise 5のPlaybook実行時の出力結果（上記）がどう変化するか見てみましょう。
+### Step 2:
+演習時間が残っている場合は、Apacheを停止させ、アンインストールするPlaybookを作成・実行してみましょう。
+  - Taskの順序を意識しましょう
+  - *started* でhttpdサービスが起動したのであれば、停止は何でしょうか
+  - *present* オプションでパッケージがインストールされていることを確認するのであれば、アンインストールを確認するオプションは何でしょうか
 
-## Section 4: この演習の最後に
+    - [Ansible yumモジュール](http://docs.ansible.com/ansible/yum_module.html)
+    - [Ansible serviceモジュール](http://docs.ansible.com/ansible/service_module.html)
+
+また、既にインストール済みの場合と、インストールされていない場合でExercise 5のPlaybook実行時の出力結果がどう変化するか見てみましょう。
+
+
+## この演習の最後に
 
 これで、1つの `apache-simple` roleを持つPlaybook、`site.yml` は完成です。Playbookを構造化されたrolesにすることの利点は、新たなrolesをAnsible Galaxyを使って、または自身の手で記述して追加できることにあります。またrolesを用いれば、容易に変数やtasksやテンプレート等を変更できます。
 
