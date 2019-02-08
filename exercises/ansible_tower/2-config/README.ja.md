@@ -128,7 +128,7 @@ SAVE(保存)をクリックします。 ![Save button](at_save.png)
 インベントリはグループごとに分離され、グループ内にJobが実行されるホストが含まれることになります。
 グループはAnsible Towerでホスト名を手動で入力したり、Ansible Towerがサポートしているクラウド・プロバイダーから入手します。
 
-nventoryは`tower-manage`コマンドを使ってAnsible Towerへインポートすることも可能で、今回のワークショップではこの方法でInventoryを追加します。
+inventoryは`tower-manage`コマンドを使ってAnsible Towerへインポートすることも可能で、今回のワークショップではこの方法でInventoryを追加します。
 
 
 ### Step 1:
@@ -167,8 +167,15 @@ sudo tower-manage inventory_import --source=<location of you inventory> --invent
 ```
 
 以下のような出力になるはずです:
-
-![Importing an inventory with tower-manage](at_tm_stdout.png)
+```
+[student1@ansible ~]$ sudo tower-manage inventory_import --source=/home/student1/lightbulb/lessons/lab_inventory/student1-instances.txt --inventory-name="Ansible Workshop Inventory"
+    1.438 INFO     Updating inventory 2: Ansible Workshop Inventory
+    1.525 INFO     Reading Ansible inventory source: /home/student1/lightbulb/lessons/lab_inventory/student1-instances.txt
+    2.151 INFO     Processing JSON output...
+    2.151 INFO     Loaded 2 groups, 4 hosts
+    2.288 INFO     Inventory import completed for  (Ansible Workshop Inventory - 7) in 0.9s
+```
+<!-- ![Importing an inventory with tower-manage](at_tm_stdout.png) -->
 
 Ansible Towerのインベントリを確認してみてください。
 先ほど作成したインベントリ"Ansible Workshop Inventory"内に、グループWebと、その中にノードが登録されていることが確認できるはずです。
