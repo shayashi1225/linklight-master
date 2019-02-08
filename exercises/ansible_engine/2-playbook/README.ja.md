@@ -150,7 +150,7 @@ ansible-playbook install_apache.yml --syntax-check
 ```
 
 
-それでは、ステップ 1にあるとおりのやり方でPlaybookを走らせてみましょう。
+それでは、Playbookを走らせてみましょう。
 
 標準の出力では、以下のような内容が表示されるはずです：
 ```
